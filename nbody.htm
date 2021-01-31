@@ -64,7 +64,7 @@
 			sun.z = 5;
 			sun.mass = 7000;
 			sun.vel = [0,0,0];
-			sun.cc = "#AABBCC04";
+			//sun.cc = "#AABBCC04";
 			bodies.push(sun);
 
 			for (var i=1; i < num_bodies; i++) {
@@ -96,7 +96,6 @@
 		}
 		
 		function body(own_idx) {
-			var r = 30;
 			this.cc = gc();
 			this.x = Math.random() * innerWidth;
 			this.y = Math.random() * innerHeight;
@@ -106,6 +105,7 @@
 			this.vel = [Math.random(),Math.random(),0];
 			this.idx = own_idx
 			this.acc = [0,0,0]
+			this.r = Math.max(1,this.mass / 1200 * 6);
 			
 			this.calc_acc = function() {
 				if (this.idx == 0) {
@@ -159,6 +159,7 @@
 					sun_width += sun_delta*timestep/10;
 					if(sun_width >= innerWidth) {
 						sun_width = -20;
+						this.cc = gc();
 					}
 					return;
 				}
@@ -167,16 +168,18 @@
 					//let lx = Math.floor(lxy[0]);
 					//let ly = Math.floor(lxy[1]);
 					c.beginPath();
-					c.lineWidth = 4;
 					c.strokeStyle = this.cc;
+					c.fillStyle = "#FFFFFFAA";
 					//c.moveTo(Math.floor(lx), Math.floor(ly));
 					//c.lineTo(Math.floor(this.x),Math.floor(this.y));
 					//let arc_rad = Math.sqrt(((Math.floor(this.x)+lx)/2)**2+(((Math.floor(this.y)+ly)/2)**2))*0.5;
 					//c.arcTo((Math.floor(this.x)+lx)/2, (Math.floor(this.y)+ly)/2,Math.floor(this.x),Math.floor(this.y),arc_rad);
 					//c.arc(Math.floor(this.x), Math.floor(this.y), 1, 0, 2*Math.PI);
 					//c.stroke();
-					c.arc(Math.floor(this.x), Math.floor(this.y), 2, 0, 2*Math.PI);
+					c.arc(Math.floor(this.x), Math.floor(this.y), this.r, 0, 2*Math.PI);
+
 					c.stroke();
+					c.fill();
 					c.closePath();
 				//}
 			}
